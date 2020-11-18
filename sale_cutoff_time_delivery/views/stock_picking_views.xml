@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- <record id="view_picking_tree_cutoff" model="ir.ui.view"> -->
+    <!--   <field name="name">stock.picking.cutoff.tree</field> -->
+    <!--   <field name="model">stock.picking</field> -->
+    <!--   <field name="inherit_id" ref="stock.vpicktree" /> -->
+    <!--   <field name="arch" type="xml"> -->
+    <!--     <field name="location_id" position="after"> -->
+    <!--       <field name="cutoff_time_HMS" /> -->
+    <!--     </field> -->
+    <!--   </field> -->
+    <!-- </record> -->
+
+    <record id="view_picking_cutoff_search" model="ir.ui.view">
+        <field name="name">stock.picking.cutoff.search</field>
+        <field name="model">stock.picking</field>
+        <!-- <field name="mode">primary</field> -->
+        <field name="inherit_id" ref="stock.view_picking_internal_search" />
+        <!-- <field eval="900" name="priority" /> -->
+        <field name="arch" type="xml">
+            <filter name="activities_exception" position="after">
+                <separator />
+                <filter
+                    string="Before today's cut-off"
+                    name="before_today_cutoff"
+                    domain="[('cutoff_time_diff', '=', -1)]"
+                />
+                <filter
+                    string="Inside today's cut-off"
+                    name="inside_today_cutoff"
+                    domain="[('cutoff_time_diff', '=', 0)]"
+                />
+                <filter
+                    string="After today's cut-off"
+                    name="after_today_cutoff"
+                    domain="[('cutoff_time_diff', '=', 1)]"
+                />
+            </filter>
+        </field>
+    </record>
+
+</odoo>
+                    <!-- domain="[('se_expected', '&lt;=', (context_today() + relativedelta(days=-1)).strftime('%Y-%m-%d'))]" -->
+                    <!-- domain="[('scheduled_date', '&lt;=', (context_today() + relativedelta(days=-1)).strftime('%Y-%m-%d ' + cutoff_time_HMS))]" -->
